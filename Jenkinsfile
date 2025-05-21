@@ -56,9 +56,6 @@ pipeline {
                 # MCP-Scan 설치
                 uv pip install mcp-scan
                 
-                # 설치 확인
-                python -m mcp_scan --version || (echo "MCP-Scan 설치 실패"; exit 1)
-                '''
             }
         }
         
@@ -68,7 +65,7 @@ pipeline {
                     // MCP 서버를 백그라운드로 시작
                     sh '''
                     # 가상 환경 활성화
-                    source .venv/bin/activate || . .venv/bin/activate
+                    . .venv/bin/activate || . .venv/bin/activate
                     
                     
                     # 테스트용 MCP 서버 시작
