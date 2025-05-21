@@ -30,6 +30,26 @@ pipeline {
         stage('Setup Environment') {
             steps {
                 sh '''
+                sudo su
+                # UV 패키지 매니저 설치 (이미 설치되어 있지 않은 경우)
+                if ! command -v uv &> /dev/null; then
+                    curl -sSf https://install.ultraviolet.dev | sh
+                    
+                    # 설치 경로 확인 및 환경 변수 설정
+                    UV_PATH="$HOME/.cargo/bin"
+                    if [ -d "$HOME/.ultraviolet/bin" ]; then
+                        UV_PATH="$HOME/.ultraviolet/bin"
+                    fi
+                    
+                    # 환경 변수 설정
+                    export PATH="$UV_PATH:$PATH"
+                    
+                    # .bashrc 또는 적절한 셸 프로파일 파일에 추가 (Jenkins 실행 환경에 따라 달라질 수 있음)
+                    echo 'export PATH="'$UV_PATH':$PATH"' >> $HOME/.bashrc
+                    
+                    # 설치 확인
+                    uv --version || (echo "UV 설치 실패"; exit 1)
+                fi
                 
                 # Python 가상 환경 설정
                 uv venv
