@@ -30,7 +30,6 @@ pipeline {
         stage('Setup Environment') {
             steps {
                 sh '''
-                
                 # UV 패키지 매니저 설치 (이미 설치되어 있지 않은 경우)
                 if ! command -v uv &> /dev/null; then
                     curl -LsSf https://astral.sh/uv/install.sh | sh
@@ -62,9 +61,7 @@ pipeline {
         stage('Start MCP Server') {
             steps {
                 script {
-                    // MCP 서버를 백그라운드로 시작
                     sh '''
-                    # 가상 환경 활성화
                     . .venv/bin/activate || . .venv/bin/activate
                     
                     
