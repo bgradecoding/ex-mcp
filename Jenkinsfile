@@ -29,7 +29,7 @@ pipeline {
         
         stage('Setup Environment') {
             steps {
-                bash '''
+                sh '''
                 
                 # UV 패키지 매니저 설치 (이미 설치되어 있지 않은 경우)
                 if ! command -v uv &> /dev/null; then
@@ -37,7 +37,7 @@ pipeline {
                     
                     # 설치 경로 확인 및 환경 변수 설정
                     echo 'export PATH="/root/.local/bin:$PATH"' >> ~/.bashrc
-                    source ~/.bashrc
+                    . ~/.bashrc
                     
                     uv --version || (echo "UV 설치 실패"; exit 1)
                 fi
@@ -46,7 +46,7 @@ pipeline {
                 uv venv
                 
                 # 가상 환경 활성화
-                source .venv/bin/activate || . .venv/bin/activate
+                . .venv/bin/activate || . .venv/bin/activate
                 
                 # 프로젝트 의존성 설치
                 if [ -f "requirements.txt" ]; then
@@ -127,7 +127,7 @@ EOL
                     // MCP-Scan 실행하여 취약점 검사
                     sh '''
                     # 가상 환경 활성화
-                    source .venv/bin/activate || . .venv/bin/activate
+                    . .venv/bin/activate || . .venv/bin/activate
                     
                     echo "MCP-Scan 실행 중..."
                     
@@ -157,7 +157,7 @@ EOL
                     // 도구 설명 검사를 위한 추가 단계
                     sh '''
                     # 가상 환경 활성화
-                    source .venv/bin/activate || . .venv/bin/activate
+                    . .venv/bin/activate || . .venv/bin/activate
                     
                     echo "도구 설명 검사 중..."
                     
@@ -186,7 +186,7 @@ EOL
                     // 보안 검사 결과를 보고서로 저장
                     sh '''
                     # 가상 환경 활성화
-                    source .venv/bin/activate || . .venv/bin/activate
+                    . .venv/bin/activate || . .venv/bin/activate
                     
                     echo "보안 보고서 생성 중..."
                     
