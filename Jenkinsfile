@@ -65,8 +65,14 @@ pipeline {
                     # 가상 환경 활성화
                     . .venv/bin/activate || . .venv/bin/activate
                     
-                    python sse_server.py &
-                    echo $! > mcp_server.pid
+                   nohup python sse_server.py > sse_server.log 2>&1 &
+            
+            # PID 저장
+            echo $! > mcp_server.pid
+            
+            # PID 확인
+            SERVER_PID=$(cat mcp_server.pid)
+            echo "MCP 서버가 PID ${SERVER_PID}로 시작됨"
                     
                     # 서버가 시작될 때까지 잠시 대기
                     echo "MCP 서버 시작 중..."
