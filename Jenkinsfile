@@ -54,7 +54,7 @@ pipeline {
                 
                 # MCP-Scan 설치
                 uv pip install mcp-scan
-                
+                '''
             }
         }
         
@@ -62,10 +62,9 @@ pipeline {
             steps {
                 script {
                     sh '''
+                    # 가상 환경 활성화
                     . .venv/bin/activate || . .venv/bin/activate
                     
-                    
-                    # 테스트용 MCP 서버 시작
                     python sse_server.py &
                     echo $! > mcp_server.pid
                     
