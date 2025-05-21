@@ -92,23 +92,10 @@ pipeline {
         stage('Generate MCP Config') {
             steps {
                 script {
-                    // 테스트용 mcp.json 구성 파일 생성
                     sh '''
                     # 기존 claude_desktop_config.json 파일이 있는지 확인
                     if [ -f "claude_desktop_config.json" ]; then
                         cp claude_desktop_config.json ${MCP_CONFIG_PATH}
-                    else
-                        # 테스트용 구성 파일 생성
-                        cat > ${MCP_CONFIG_PATH} << EOL
-{
-  "mcpServers": {
-    "test_server": {
-      "transport": "sse",
-      "url": "http://localhost:${MCP_SERVER_PORT}"
-    }
-  }
-}
-EOL
                     fi
                     
                     echo "MCP 구성 파일 생성 완료: ${MCP_CONFIG_PATH}"
@@ -121,15 +108,11 @@ EOL
         stage('Run MCP-Scan') {
             steps {
                 script {
-                    // MCP-Scan 실행하여 취약점 검사
                     sh '''
-                    # 가상 환경 활성화
                     . .venv/bin/activate || . .venv/bin/activate
                     
                     echo "MCP-Scan 실행 중..."
                     
-                    # JSON 형식으로 출력하여 결과 파싱이 쉽도록 함
-                    # 자세한 출력을 위해 --verbose 플래그 추가
                     mcp-scan scan --json --verbose ${MCP_CONFIG_PATH} > scan_results.json
                     
                     # 결과 출력
@@ -151,14 +134,11 @@ EOL
         stage('Verify Tool Descriptions') {
             steps {
                 script {
-                    // 도구 설명 검사를 위한 추가 단계
                     sh '''
-                    # 가상 환경 활성화
                     . .venv/bin/activate || . .venv/bin/activate
                     
                     echo "도구 설명 검사 중..."
                     
-                    # 도구 설명 검사 (inspect 명령어 사용)
                     mcp-scan inspect ${MCP_CONFIG_PATH} > tool_descriptions.txt
                     
                     # 결과 출력
