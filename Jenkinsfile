@@ -76,12 +76,6 @@ pipeline {
                     
                     # 서버가 시작될 때까지 잠시 대기
                     echo "MCP 서버 시작 중..."
-                    sleep 10
-                    
-                    # 서버가 실행 중인지 확인
-                    # 건강 상태 엔드포인트가 있는 경우
-                    curl -s http://localhost:${MCP_SERVER_PORT}/sse || echo "Health 엔드포인트 없음, 포트 확인으로 대체"
-                    
                     echo "MCP 서버가 성공적으로 시작되었습니다"
                     '''
                 }
