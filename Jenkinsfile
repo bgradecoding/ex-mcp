@@ -29,7 +29,7 @@ pipeline {
         
         stage('Setup Environment') {
             steps {
-                sh '''
+                bash '''
                 
                 # UV 패키지 매니저 설치 (이미 설치되어 있지 않은 경우)
                 if ! command -v uv &> /dev/null; then
