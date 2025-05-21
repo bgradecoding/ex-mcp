@@ -86,11 +86,6 @@ pipeline {
             steps {
                 script {
                     sh '''
-                    # 기존 claude_desktop_config.json 파일이 있는지 확인
-                    if [ -f "claude_desktop_config.json" ]; then
-                        cp claude_desktop_config.json ${MCP_CONFIG_PATH}
-                    fi
-                    
                     echo "MCP 구성 파일 생성 완료: ${MCP_CONFIG_PATH}"
                     cat ${MCP_CONFIG_PATH}
                     '''
@@ -106,7 +101,7 @@ pipeline {
                     
                     echo "MCP-Scan 실행 중..."
                     
-                    mcp-scan scan --json --verbose ${MCP_CONFIG_PATH} > scan_results.json
+                    mcp-scan scan --json --verbose ./claude_desktop_config.json > scan_results.json
                     
                     # 결과 출력
                     echo "MCP-Scan 결과:"
