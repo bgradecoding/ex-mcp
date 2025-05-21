@@ -1,0 +1,8 @@
+{
+  "mcpServers": {
+    "test": {
+      "url": "http://localhost:5001/sse",
+      "transport": "sse"
+    }
+  }
+}
